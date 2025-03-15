@@ -1,6 +1,10 @@
 # Listas
 
 print("\nlistas\n")
+mi_lista = [1,2,3,4,5,6,7]
+print(mi_lista) 
+
+print("\n")
 lista = [2,4,8,16,32,64,128,256,512]
 print(lista)
 
