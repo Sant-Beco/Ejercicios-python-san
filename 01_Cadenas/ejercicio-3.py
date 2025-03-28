@@ -3,4 +3,5 @@ Escribir un programa que pregunte el nombre del usuario en la consola y después
 por pantalla <NOMBRE> tiene <n> letras, donde <NOMBRE> es el nombre de usuario en mayúsculas y <n> es el número de 
 letras que tienen el nombre."""
 
-nombre = input("X: ")
+nombre = input("\nIntroduzca su nombre: ")
+print(f"{nombre.upper()} y tiene {len(nombre)} letras\n")

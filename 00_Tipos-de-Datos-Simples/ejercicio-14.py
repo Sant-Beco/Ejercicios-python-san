@@ -1,6 +1,6 @@
 import pyfiglet
 
-texto = "\n                            PYTHON SAN\n \n \n"
+texto = "\n   PYTHON SAN\n \n \n"
 resultado = pyfiglet.figlet_format(texto)
 print(resultado)
 
