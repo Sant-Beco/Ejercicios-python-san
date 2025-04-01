@@ -2,8 +2,7 @@ import string
 import random
 import pyfiglet
 
-texto = "CrearClave"
-resultado = pyfiglet.figlet_format(texto)
+resultado = pyfiglet.figlet_format("\n*****CrearClave\n\n", font="slant")
 print(resultado)
 
 
