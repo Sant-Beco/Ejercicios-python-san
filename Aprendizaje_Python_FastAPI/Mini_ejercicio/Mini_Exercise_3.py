@@ -41,7 +41,7 @@ while option != 4:
         print(f"Hello, {name}!")
 
     elif option == "4":
-        print("Goodbye hasta pronto")
+        print("Goodbye! see you soon")
         break
 
     else:
