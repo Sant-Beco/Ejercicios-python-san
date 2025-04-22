@@ -53,3 +53,19 @@ else:
 for i in range(8):
     print(f"Number: {i}")
 
+# Function Type 
+
+print("function Type")
+print(type(5))            # <class 'int'>
+print(type(3.14))         # <class 'float'>
+print(type("Hola"))       # <class 'str'>
+print(type(True))         # <class 'bool'>
+print(type([1, 2, 3]))     # <class 'list'>
+print(type((1, 2)))        # <class 'tuple'>
+print(type({'a': 1}))      # <class 'dict'>
+
+# ejercicio 
+
+valor = input("Escribe algo: ")
+
+print("Tu valor es del tipo:", type(valor))
