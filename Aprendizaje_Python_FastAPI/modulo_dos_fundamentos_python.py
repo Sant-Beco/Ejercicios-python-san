@@ -52,3 +52,53 @@ except ZeroDivisionError:
 
 finally:
     print("Gracias por intentar 🙏")
+
+
+# listas, diccionarios y tuplas
+
+# list 
+
+
+my_list = [10, 20, 30, 40, 50, "hello", "Goodbye", True]
+
+for item in my_list:
+    print(item)
+
+for i in range(len(my_list)):
+    print(my_list[i])
+
+numbers = list(range(1, 6))  # [1, 2, 3, 4, 5]
+
+
+#✅ Creating a List
+
+fruits = ["apple", "banana", "orange"]
+#✅ Accessing Elements
+print(fruits[0])  # prints 'apple'
+print(fruits[-1]) # prints 'orange' (last item)
+
+#✅ Adding Elements
+
+fruits.append("grape")  # adds to the end
+fruits.insert(1, "mango")  # inserts at position 1
+
+#✅ Removing Elements
+
+fruits.remove("banana")  # removes by value
+fruits.pop()  # removes the last item
+
+#✅ Checking if an item exists
+
+if "apple" in fruits:
+    print("You have apples!")
+
+# dict
+
+person = {
+    "name": "Alice",
+    "age": 25,
+    "is_student": True
+}
+
+person.values()
+
