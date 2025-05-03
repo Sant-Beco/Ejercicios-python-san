@@ -3,11 +3,14 @@
 
 Output example:
 markdown
-Copiar
-Editar
 *
 *
 *
 *
 *
 Thanks for watching the stars!"""
+
+for i in range(6):
+    print("*")
+
+print("Thanks for watching the stars!")
