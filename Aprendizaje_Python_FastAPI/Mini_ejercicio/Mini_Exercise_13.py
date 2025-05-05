@@ -11,13 +11,17 @@ Enter your third favorite thing: soccer
 Your favorite things are: ['pizza', 'music', 'soccer']
 You love pizza, music, and soccer!"""
 
-thing_one = input('Enter your first favorite thing: ')
-thing_two = input('Enter your second favorite thing:    ')
-thing_three = input('Enter your third favorite thing:   ')
+try:
+    thing_one = input('Enter your first favorite thing: ')
+    thing_two = input('Enter your second favorite thing:    ')
+    thing_three = input('Enter your third favorite thing:   ')
 
-lista = []
+    lista = []
 
-lista.extend([thing_one, thing_two, thing_three])
+    lista.extend([thing_one, thing_two, thing_three])
 
-print(f"\nYour favorite things are: {lista}")
-print(f"You love {thing_one}, {thing_two}, and {thing_three}!")
+    print(f"\nYour favorite things are: {lista}")
+    print(f"You love {thing_one}, {thing_two}, and {thing_three}!")
+
+except Exception as e:
+     print(f"❌ An unexpected error occurred: {e}")
