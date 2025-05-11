@@ -33,3 +33,11 @@ Enter product 3: Bread
 ✅ Your grocery list: ['Milk', 'Eggs', 'Bread']
 You have 3 products in total.
 Happy shopping! 🛍️"""
+
+print("\n📋 Choose what you want to enter\n")
+
+cant_productos = int(input("Ingrese la cantidad de productos: "))
+option = ""
+
+while cant_productos > 0:
+    print("\n📋 Choose what you want to enter:")
