@@ -20,9 +20,7 @@ Cuántos productos hay en total.
 Un mensaje de despedida.
 
 🧾 Ejemplo de salida:
-pgsql
-Copiar
-Editar
+
 🛒 Welcome to the Grocery List Manager!
 How many products do you want to add? 3
 
@@ -34,10 +32,11 @@ Enter product 3: Bread
 You have 3 products in total.
 Happy shopping! 🛍️"""
 
-print("\n📋 Choose what you want to enter\n")
+print("\n🛒 Welcome to the Grocery List Manager!\n")
 
-cant_productos = int(input("Ingrese la cantidad de productos: "))
-option = ""
+cant_productos = int(input("How many products do you want to add? "))
+
 
 while cant_productos > 0:
-    print("\n📋 Choose what you want to enter:")
+    item = input("Enter product 1: ")
+    lista = [item]
