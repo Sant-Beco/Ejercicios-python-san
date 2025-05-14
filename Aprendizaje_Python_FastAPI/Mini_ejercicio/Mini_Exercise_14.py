@@ -34,11 +34,24 @@ Happy shopping! 🛍️"""
 
 print("\n🛒 Welcome to the Grocery List Manager!\n")
 
-cant_productos = int(input("How many products do you want to add? "))
-lista = []
+try:
+    cant_productos = int(input("How many products do you want to add? "))
 
-for i in range(1, cant_productos + 1):
-    elemento = input(f"Enter product {i}: ")
-    lista.append(elemento)
+    if cant_productos <= 0:
+        print("❌ Please enter a positive number of products.")
+    else:
+        lista = []
 
-print(f"your list is: {lista}")
+        for i in range(1, cant_productos + 1):
+            elemento = input(f"Enter product {i}: ")
+            lista.append(elemento)
+
+        print(f"n✅ Your grocery list: {lista}")
+        print(f"You have {len(lista)} products in total")
+        print("Happy shopping! 🛍️")
+
+except ValueError:
+    print("❌ You must enter a valid number.")
+
+
+
