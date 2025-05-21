@@ -11,8 +11,11 @@ class Auto:
         self.color = color
 
     # Método normal
-    def ladrar(self):
-        print(f"{self.nombre} dice: ¡Guau! 🐶")
+    def decir_modelo(self):
+        print(f"{self.mi_auto} Toyota tornado")
+
+
+Auto.decir_modelo()
 
 mi_auto = Auto()
 
