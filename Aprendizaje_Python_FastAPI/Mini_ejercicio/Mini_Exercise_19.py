@@ -6,19 +6,19 @@
 """
 
 class Auto:
-    def __init__(self, mi_auto, color):
-        self.mi_auto = mi_auto
+    def __init__(self, marca, color):
+        self.marca = marca
         self.color = color
 
     # Método normal
     def decir_modelo(self):
-        print(f"{self.mi_auto} Toyota tornado")
+        print(f"{self.marca} Toyota tornado")
 
 
 Auto.decir_modelo()
 
-mi_auto = Auto()
+mi_auto = Auto("nissan","negro")
+mi_auto.decir_modelo()
 
 print(type(Auto))
 print(type(mi_auto))
-
