@@ -16,10 +16,10 @@ class Auto:
         print(f"{self.marca} Toyota tornado")
 
     def describir_auto(self):
-        print(f"Este auto es un {self.marca} de color {self.color}.")
+        print(f"Este auto es un {self.marca} {self._modelo} de color {self.color}.")
 
 
-mi_auto = Auto("nissan","negro")
+mi_auto = Auto("nissan","negro", "tornado")
 
 
 mi_auto.decir_modelo()
