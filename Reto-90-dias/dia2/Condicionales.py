@@ -7,4 +7,5 @@ elif edad == 18:
 elif edad > 18:
     print(f"Tienes {edad} eres MAYOR de edad")
 else:
-    print("Error vuelve a ejecutar")    
+    print("Error vuelve a ejecutar")  
+      
