@@ -1,5 +1,3 @@
-import sys
-
 def saludar(nombres="San",edad="20",ciudad="Itagui"):
     print(f"!Hola, me llamo {nombres}, tengo {edad} años y vivo en {ciudad}¡")
 
