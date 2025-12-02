@@ -143,7 +143,7 @@ with open("ph.txt", "w") as f:
 
 lecturas = [5.2, 5.3, 5.6]
 
-for i in lecturas:
-    with open("ph.txt", "w") as f:
-    i = f.write()
-    print(i)
+# for i in lecturas:
+#     with open("ph.txt", "w") as f:
+#     i = f.write()
+#     print(i)
