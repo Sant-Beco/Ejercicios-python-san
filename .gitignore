@@ -1,0 +1,81 @@
+# ============================================
+#   PYTHON GENERAL
+# ============================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Archivos de logs
+*.log
+
+# Archivos de configuración local
+*.env
+.env/
+.env.*
+
+# Compiled
+*.dll
+*.dylib
+*.exe
+
+# ============================================
+#   ENTORNOS VIRTUALES
+# ============================================
+env/
+venv/
+.venv/
+
+# ============================================
+#   VS CODE
+# ============================================
+.vscode/
+.code-workspace
+
+# ============================================
+#   FASTAPI / UVICORN / CACHE
+# ============================================
+*.db
+instance/
+.cache/
+*.sqlite3
+
+# Archivos de test
+.coverage
+htmlcov/
+
+# ============================================
+#   JUPYTER NOTEBOOK
+# ============================================
+.ipynb_checkpoints/
+
+# ============================================
+#   SISTEMA OPERATIVO
+# ============================================
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# ============================================
+#   OTROS
+# ============================================
+# Paquetes
+dist/
+build/
+*.egg-info/
+pip-wheel-metadata/
+
+# Archivos temporales
+tmp/
+temp/
+
+# Archivos creados por editores
+*.swp
+*.swo
