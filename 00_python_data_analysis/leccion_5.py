@@ -31,17 +31,17 @@ Cuándo una temperatura anula un buen resultado
 
 cuando al dia siguiente el promedio baja por causa de la temperatura"""
 
-produccion_semana = [82, 85, 83, 84, 81, 83, 82]
-
-produccion = 83
-temperatura = 24
-
-promedio_semanal = sum(produccion_semana) / len(produccion_semana)
-promedio_maximo =  max(promedio_semanal)
 
 def estado_granja(produccion_semana, produccion, temperatura):
-    promedio_semanal = sum(produccion_semana) / len(produccion_semana)
-    return promedio_semanal
-    promedio_maximo =  max(produccion_semana)
-    return promedio_maximo
+    produccion_semanal_total = sum(produccion_semana) / len(produccion_semana)
+    if produccion < produccion_semanal_total and temperatura > 26:
+        return "Alerta" 
+    elif produccion <= produccion_semanal_total and temperatura < 26:
+        return "Normal"
+    elif produccion > produccion_semanal_total and temperatura < 26:
+        return "Excelente"
     
+print(estado_granja([82, 85, 83, 84, 81, 83, 82], 83, 23))
+print(estado_granja([82, 85, 83, 84, 81, 83, 82], 80, 23))
+print(estado_granja([82, 85, 83, 84, 81, 83, 82], 76, 28))
+print(estado_granja([82, 85, 83, 84, 81, 83, 82], 84, 23))
