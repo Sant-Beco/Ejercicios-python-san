@@ -16,18 +16,15 @@ promedio bajo, porque si la variacion es superior al promedio minimo aceptable e
 
 
 def control_produccion(produccion_diaria):
-    produccion_maximo = max(produccion_diaria)
     produccion_minima_aceptable = 80
     produccion_promedio = sum(produccion_diaria) / len(produccion_diaria)
-    if produccion_minima_aceptable > produccion_promedio:
+    if produccion_minima_aceptable >= produccion_promedio:
         produccion_minima_semana = min(produccion_diaria)
         return f"Alerta, la produccion mas critica {produccion_minima_semana}"
-    elif produccion_minima_aceptable < produccion_promedio:
+    elif produccion_minima_aceptable <= produccion_promedio:
         return "Produccion constante"
-    elif produccion_promedio > produccion_maximo:
-        return "produccion muy alta alta algo sucede"
     else:
-        return "Ingresaste un dato no valido"
+        return "Ingresaste un dato no valido, una lista"
     
 
 print(control_produccion([82, 85, 83, 84, 81, 83, 82]))
