@@ -24,4 +24,15 @@ si la produccion es igual o mayor a la produccion normal estamos bien
 si la produccion es mayor a la produccion normal 2 puntos o hasta 3 estamos llegando a pico"""
 
 
+produccion_diaria = [82, 85, 83, 84, 81, 83, 82]
+pro_promedio = sum(produccion_diaria) / len(produccion_diaria)
+pro_minima = min(produccion_diaria)
+pro_maxima = max(produccion_diaria)
+
+for i in produccion_diaria:
+    if produccion_diaria < 80:
+        contar = ++ i
+        print(f"dias por debajo {i} {contar}")
+        if contar > 2:
+            print(f"Riesgo de muchos dias bajos")
 
