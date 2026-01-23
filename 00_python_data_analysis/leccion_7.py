@@ -28,11 +28,14 @@ produccion_diaria = [82, 85, 83, 84, 81, 83, 82]
 pro_promedio = sum(produccion_diaria) / len(produccion_diaria)
 pro_minima = min(produccion_diaria)
 pro_maxima = max(produccion_diaria)
+contar = 0
 
 for i in produccion_diaria:
-    if produccion_diaria < 80:
-        contar = ++ i
-        print(f"dias por debajo {i} {contar}")
+    if i > pro_minima:
+        contar = i + 1
+        
         if contar > 2:
             print(f"Riesgo de muchos dias bajos")
+        elif contar < 2:
+            print(f"Aceptable ")
 
