@@ -18,3 +18,6 @@ def calcular_total(precio, cantidad):
 # LLAMAR función
 resultado = calcular_total(10, 5)  # resultado = 50
 print(f"Funcion de calcular precio {resultado}")
+
+print(calcular_total(20,2))
+

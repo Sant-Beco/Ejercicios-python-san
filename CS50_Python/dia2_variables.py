@@ -10,22 +10,32 @@ producto_001 = {
     'activo': True
 }
 
+producto_002 = {
+    'codigo': 'TOR-M6-101',
+    'nombre': 'Tornillo M6 x 200mm',
+    'precio': 2.50,
+    'stock': 200,
+    'proveedor': 'Aceros del sur',
+    'activo': True
+}
+
 # CLIENTE
 cliente_001 = {
     'id': 1,
-    'nombre': 'Ferretería El Martillo',
+    'nombre': 'Ferretería El Martill de hierro',
     'rfc': 'FEM920515XY8',
     'credito_disponible': 50000.00,
-    'tipo': 'mayorista'  # mayorista, minorista, distribuidor
+    'tipo': 'mayorista'  
 }
 
 # REMISIÓN
 remision_001 = {
-    'numero': 'REM-2024-001',
+    'numero': 'REM-2026-002',
     'cliente': cliente_001['nombre'],
-    'fecha': '2024-05-27',
+    'fecha': '2026-05-28',
     'productos': [
         {'codigo': 'TOR-M6-100', 'cantidad': 50, 'precio': 1.50},
+        {'codigo': 'TOR-M6-101', 'cantidad': 20, 'precio': 2.50},
         {'codigo': 'TUE-M6', 'cantidad': 50, 'precio': 0.30}
     ],
     'subtotal': 0.0,
