@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐍 Python Fundamentos - Juego Interactivo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #1a0033 0%, #330066 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 2px solid #7700ff;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #bb86fc;
+            text-shadow: 0 0 10px #7700ff;
+        }
+
+        .subtitle {
+            color: #bb86fc;
+            font-size: 14px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: rgba(119, 0, 255, 0.2);
+            border: 1px solid #7700ff;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-label {
+            color: #bb86fc;
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #7700ff;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .challenge-box {
+            background: rgba(119, 0, 255, 0.1);
+            border: 2px solid #7700ff;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .challenge-title {
+            color: #ffb347;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .challenge-desc {
+            color: #bb86fc;
+            font-size: 13px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .challenge-hint {
+            background: rgba(187, 134, 252, 0.1);
+            border-left: 3px solid #bb86fc;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #bb86fc;
+            border-radius: 3px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .editor-section {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #7700ff;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .editor-label {
+            color: #bb86fc;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            background: #1a1a2e;
+            color: #00ff00;
+            border: 1px solid #7700ff;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #bb86fc;
+            box-shadow: 0 0 10px rgba(119, 0, 255, 0.5);
+        }
+
+        .output-box {
+            background: #1a1a2e;
+            border: 1px solid #7700ff;
+            border-radius: 4px;
+            padding: 12px;
+            height: 150px;
+            overflow-y: auto;
+            font-size: 12px;
+        }
+
+        .output-line {
+            color: #00ff00;
+            margin-bottom: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .output-error {
+            color: #ff6b6b;
+        }
+
+        .output-success {
+            color: #51cf66;
+            font-weight: bold;
+        }
+
+        .output-info {
+            color: #74c0fc;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: #7700ff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #9933ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(119, 0, 255, 0.4);
+        }
+
+        button.secondary {
+            background: #ff6b6b;
+        }
+
+        button.secondary:hover {
+            background: #ff5252;
+        }
+
+        button.success {
+            background: #51cf66;
+            color: #000;
+        }
+
+        button.success:hover {
+            background: #40c057;
+        }
+
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .concept-item {
+            background: rgba(119, 0, 255, 0.1);
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #bb86fc;
+            border-left: 3px solid #7700ff;
+        }
+
+        .concept-item.completed {
+            background: rgba(81, 207, 102, 0.1);
+            border-left-color: #51cf66;
+            color: #51cf66;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7700ff, #bb86fc);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #7700ff;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a0033;
+            border: 2px solid #7700ff;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            color: #ffb347;
+            margin-bottom: 15px;
+        }
+
+        .modal-message {
+            color: #bb86fc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .modal-stats {
+            background: rgba(119, 0, 255, 0.2);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .modal-stats-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: #bb86fc;
+        }
+
+        @media (max-width: 968px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+        }
+
+        .level-badge {
+            display: inline-block;
+            background: #7700ff;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin-bottom: 10px;
+        }
+
+        .scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: #7700ff rgba(0, 0, 0, 0.3);
+        }
+
+        .scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .scrollbar::-webkit-scrollbar-thumb {
+            background: #7700ff;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐍 PYTHON FUNDAMENTOS - JUEGO INTERACTIVO</h1>
+            <p class="subtitle">Escribe código real y aprende. El progreso se guarda automáticamente.</p>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-label">NIVEL</div>
+                <div class="stat-value" id="level">1</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">PUNTOS</div>
+                <div class="stat-value" id="score">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">DESAFÍOS</div>
+                <div class="stat-value" id="completed">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">RACHA</div>
+                <div class="stat-value" id="streak">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">PRECISIÓN</div>
+                <div class="stat-value" id="accuracy">0%</div>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px;">
+                <span id="progressLabel">Progreso: 0%</span>
+                <span id="conceptProgress">Conceptos: 0/7</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="sidebar">
+                <div class="challenge-box">
+                    <div class="level-badge" id="levelBadge">NIVEL 1</div>
+                    <div class="challenge-title" id="challengeTitle">Cargando...</div>
+                    <div class="challenge-desc" id="challengeDesc"></div>
+                    <div class="challenge-hint" id="challengeHint"></div>
+                </div>
+
+                <div class="challenge-box" style="flex: 1; max-height: 300px; overflow-y: auto;" class="scrollbar">
+                    <div class="challenge-title">📚 CONCEPTOS</div>
+                    <div class="concepts-grid" id="conceptsList"></div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="editor-section">
+                    <div class="editor-label">📝 ESCRIBE TU CÓDIGO PYTHON</div>
+                    <textarea id="codeInput" placeholder="Escribe tu código aquí..."></textarea>
+                </div>
+
+                <div class="editor-section">
+                    <div class="editor-label">⚙️ SALIDA / RESULTADOS</div>
+                    <div class="output-box scrollbar" id="output"></div>
+                </div>
+
+                <div class="buttons">
+                    <button class="success" onclick="runCode()">▶ EJECUTAR (Ctrl+Enter)</button>
+                    <button onclick="checkChallenge()">✓ ENVIAR RESPUESTA</button>
+                    <button class="secondary" onclick="clearCode()">✕ LIMPIAR</button>
+                    <button class="secondary" onclick="showHint()">? PISTA</button>
+                    <button class="secondary" onclick="resetProgress()">⟲ RESETEAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Felicitaciones -->
+    <div class="modal" id="congratsModal">
+        <div class="modal-content">
+            <div class="modal-title" id="modalTitle">🎉 ¡EXCELENTE!</div>
+            <div class="modal-message" id="modalMessage"></div>
+            <div class="modal-stats" id="modalStats"></div>
+            <button class="success" onclick="nextChallenge()">SIGUIENTE DESAFÍO</button>
+        </div>
+    </div>
+
+    <!-- Modal de Game Over -->
+    <div class="modal" id="gameOverModal">
+        <div class="modal-content">
+            <div class="modal-title">🏆 ¡COMPLETASTE TODOS LOS DESAFÍOS!</div>
+            <div class="modal-message">Eres un maestro de Python. Ahora estás listo para FastAPI.</div>
+            <div class="modal-stats" id="finalStats"></div>
+            <button class="success" onclick="location.reload()">JUGAR DE NUEVO</button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // DESAFÍOS PYTHON
+        // ============================================
+
+        const challenges = [
+            {
+                concept: "Variables",
+                title: "Crea una variable",
+                desc: "Crea una variable llamada 'nombre' con tu nombre como valor.\nLuego haz print(nombre)",
+                hint: "nombre = 'tu_nombre'\nprint(nombre)",
+                validate: (code) => code.includes('nombre') && code.includes('print')
+            },
+            {
+                concept: "Variables",
+                title: "Variables numéricas",
+                desc: "Crea dos variables:\n- precio = 100\n- cantidad = 5\n\nLuego imprime: precio * cantidad",
+                hint: "precio = 100\ncantidad = 5\nprint(precio * cantidad)",
+                validate: (code) => code.includes('precio') && code.includes('cantidad') && code.includes('print')
+            },
+            {
+                concept: "Tipos de datos",
+                title: "Identifica tipos",
+                desc: "Crea tres variables:\n- texto = 'hola'\n- numero = 42\n- decimal = 3.14\n\nImprime el tipo de cada una con type()",
+                hint: "print(type(texto))\nprint(type(numero))\nprint(type(decimal))",
+                validate: (code) => code.includes('type(')
+            },
+            {
+                concept: "Diccionarios",
+                title: "Crea un diccionario",
+                desc: "Crea un diccionario 'producto' con:\n- 'nombre': 'Tornillo'\n- 'precio': 0.50\n- 'stock': 100\n\nImprime el nombre del producto",
+                hint: "producto = {'nombre': 'Tornillo', 'precio': 0.50, 'stock': 100}\nprint(producto['nombre'])",
+                validate: (code) => code.includes('producto') && code.includes('[') && code.includes(']')
+            },
+            {
+                concept: "Listas",
+                title: "Crea una lista",
+                desc: "Crea una lista 'colores' con:\n['rojo', 'verde', 'azul']\n\nImprime el primer elemento",
+                hint: "colores = ['rojo', 'verde', 'azul']\nprint(colores[0])",
+                validate: (code) => code.includes('[') && code.includes('colores')
+            },
+            {
+                concept: "Bucles",
+                title: "Bucle FOR",
+                desc: "Crea un bucle que imprima los números del 1 al 5\n\nUsa: for i in range(1, 6):",
+                hint: "for i in range(1, 6):\n    print(i)",
+                validate: (code) => code.includes('for') && code.includes('range')
+            },
+            {
+                concept: "Condicionales",
+                title: "IF/ELSE",
+                desc: "Crea una variable 'edad = 25'\n\nSi edad >= 18, imprime 'Eres mayor'\nSi no, imprime 'Eres menor'",
+                hint: "edad = 25\nif edad >= 18:\n    print('Eres mayor')\nelse:\n    print('Eres menor')",
+                validate: (code) => code.includes('if') && code.includes('else')
+            },
+            {
+                concept: "Funciones",
+                title: "Define una función",
+                desc: "Define una función 'saludar(nombre)' que imprima:\n'Hola, {nombre}!'\n\nLuego llámala con tu nombre",
+                hint: "def saludar(nombre):\n    print(f'Hola, {nombre}!')\n\nsaludar('tu_nombre')",
+                validate: (code) => code.includes('def') && code.includes('saludar')
+            },
+            {
+                concept: "Funciones con Return",
+                title: "Función con Return",
+                desc: "Define una función 'calcular_total(precio, cantidad)'\nque devuelva precio * cantidad\n\nGuarda el resultado en una variable e imprime",
+                hint: "def calcular_total(precio, cantidad):\n    return precio * cantidad\n\ntotal = calcular_total(10, 5)\nprint(total)",
+                validate: (code) => code.includes('def') && code.includes('return')
+            },
+            {
+                concept: "Listas avanzadas",
+                title: "Itera una lista de diccionarios",
+                desc: "Crea una lista de productos:\nproductos = [{'nombre': 'Tornillo', 'precio': 0.50}, {'nombre': 'Tuerca', 'precio': 0.30}]\n\nItera e imprime el nombre de cada uno",
+                hint: "for prod in productos:\n    print(prod['nombre'])",
+                validate: (code) => code.includes('for') && code.includes('[')
+            }
+        ];
+
+        // ============================================
+        // ESTADO DEL JUEGO
+        // ============================================
+
+        class GameState {
+            constructor() {
+                this.load();
+            }
+
+            load() {
+                const saved = localStorage.getItem('python-game-state');
+                if (saved) {
+                    const state = JSON.parse(saved);
+                    Object.assign(this, state);
+                } else {
+                    this.challengeIndex = 0;
+                    this.score = 0;
+                    this.completed = 0;
+                    this.streak = 0;
+                    this.attempts = 0;
+                    this.successes = 0;
+                    this.completedChallenges = [];
+                }
+            }
+
+            save() {
+                localStorage.setItem('python-game-state', JSON.stringify(this));
+            }
+
+            completeChallenge() {
+                this.completed++;
+                this.score += 100;
+                this.streak++;
+                this.successes++;
+                this.completedChallenges.push(this.challengeIndex);
+                this.challengeIndex++;
+                this.save();
+            }
+
+            failAttempt() {
+                this.attempts++;
+                this.streak = 0;
+                this.save();
+            }
+
+            resetAll() {
+                localStorage.removeItem('python-game-state');
+                location.reload();
+            }
+        }
+
+        let gameState = new GameState();
+        const codeInput = document.getElementById('codeInput');
+        const output = document.getElementById('output');
+
+        // ============================================
+        // FUNCIONES PRINCIPALES
+        // ============================================
+
+        function print(text, type = 'output') {
+            const line = document.createElement('div');
+            line.className = 'output-line';
+            
+            if (type === 'error') line.classList.add('output-error');
+            if (type === 'success') line.classList.add('output-success');
+            if (type === 'info') line.classList.add('output-info');
+            
+            line.textContent = text;
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function clearOutput() {
+            output.innerHTML = '';
+        }
+
+        function runCode() {
+            const code = codeInput.value.trim();
+            if (!code) {
+                print('Escribe código primero', 'error');
+                return;
+            }
+
+            clearOutput();
+            print('▶ Ejecutando código...', 'info');
+
+            try {
+                // Simulación básica de ejecución
+                // En realidad, necesitaríamos Pyodide o similar para ejecutar Python real
+                // Por ahora, hacemos validación y feedback
+                
+                const consoleOutput = [];
+                
+                // Crear un contexto seguro para eval
+                // NOTA: Esto es solo para demostración. En producción usarías Pyodide
+                
+                // Búsqueda de patrones comunes
+                if (code.includes('print(')) {
+                    const printMatches = code.match(/print\((.*?)\)/g) || [];
+                    print(`✓ Encontrados ${printMatches.length} print()`, 'success');
+                    
+                    // Intentar extraer y mostrar valores
+                    const values = code.match(/print\(['"]([^'"]*)['"]\)/g) || [];
+                    values.forEach(v => {
+                        const extracted = v.match(/['"]([^'"]*)['"]/)[1];
+                        print(extracted, 'success');
+                    });
+                }
+                
+                if (code.includes('for ')) {
+                    print('✓ Detectado bucle FOR', 'success');
+                }
+                
+                if (code.includes('if ')) {
+                    print('✓ Detectado condicional IF', 'success');
+                }
+                
+                if (code.includes('def ')) {
+                    print('✓ Detectada función', 'success');
+                }
+
+                print('\n✓ Código válido (validación básica)', 'success');
+                
+            } catch (err) {
+                print(`Error: ${err.message}`, 'error');
+            }
+        }
+
+        function checkChallenge() {
+            if (gameState.challengeIndex >= challenges.length) {
+                print('Ya completaste todos los desafíos', 'info');
+                return;
+            }
+
+            const code = codeInput.value.trim();
+            const currentChallenge = challenges[gameState.challengeIndex];
+
+            if (!code) {
+                print('Escribe código primero', 'error');
+                return;
+            }
+
+            gameState.attempts++;
+
+            if (currentChallenge.validate(code)) {
+                clearOutput();
+                print('✓ ¡CORRECTO!', 'success');
+                print('Desafío completado exitosamente', 'success');
+                
+                gameState.completeChallenge();
+                updateUI();
+                
+                setTimeout(() => {
+                    if (gameState.challengeIndex >= challenges.length) {
+                        showGameOver();
+                    } else {
+                        showCongrats();
+                    }
+                }, 800);
+            } else {
+                gameState.failAttempt();
+                clearOutput();
+                print('✗ No es correcto', 'error');
+                print('Intenta de nuevo o pide una pista', 'error');
+                updateUI();
+            }
+        }
+
+        function showHint() {
+            const challenge = challenges[gameState.challengeIndex];
+            clearOutput();
+            print('💡 PISTA:', 'info');
+            print(challenge.hint, 'info');
+        }
+
+        function clearCode() {
+            codeInput.value = '';
+            clearOutput();
+        }
+
+        function nextChallenge() {
+            closeCongrats();
+            if (gameState.challengeIndex < challenges.length) {
+                updateChallenge();
+                codeInput.value = '';
+                clearOutput();
+            }
+        }
+
+        function updateUI() {
+            const level = Math.floor(gameState.completed / 2) + 1;
+            document.getElementById('level').textContent = level;
+            document.getElementById('score').textContent = gameState.score;
+            document.getElementById('completed').textContent = gameState.completed;
+            document.getElementById('streak').textContent = gameState.streak;
+
+            const accuracy = gameState.attempts > 0 
+                ? Math.round((gameState.successes / gameState.attempts) * 100)
+                : 0;
+            document.getElementById('accuracy').textContent = accuracy + '%';
+
+            const progress = (gameState.challengeIndex / challenges.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressLabel').textContent = 
+                `Progreso: ${Math.floor(progress)}%`;
+
+            const concepts = [...new Set(challenges.map(c => c.concept))];
+            const completedConcepts = new Set();
+            gameState.completedChallenges.forEach(idx => {
+                completedConcepts.add(challenges[idx].concept);
+            });
+
+            document.getElementById('conceptProgress').textContent = 
+                `Conceptos: ${completedConcepts.size}/${concepts.length}`;
+
+            updateChallenge();
+            updateConceptsList();
+        }
+
+        function updateChallenge() {
+            if (gameState.challengeIndex >= challenges.length) {
+                document.getElementById('challengeTitle').textContent = '✓ ¡COMPLETASTE TODOS!';
+                document.getElementById('levelBadge').textContent = 'MAESTRO';
+                return;
+            }
+
+            const challenge = challenges[gameState.challengeIndex];
+            const level = Math.floor(gameState.challengeIndex / 2) + 1;
+            
+            document.getElementById('levelBadge').textContent = `NIVEL ${level}`;
+            document.getElementById('challengeTitle').textContent = challenge.title;
+            document.getElementById('challengeDesc').textContent = challenge.desc;
+            document.getElementById('challengeHint').innerHTML = 
+                `<strong>Concepto:</strong> ${challenge.concept}`;
+        }
+
+        function updateConceptsList() {
+            const concepts = [...new Set(challenges.map(c => c.concept))];
+            const completedConcepts = new Set();
+            gameState.completedChallenges.forEach(idx => {
+                completedConcepts.add(challenges[idx].concept);
+            });
+
+            const list = document.getElementById('conceptsList');
+            list.innerHTML = '';
+
+            concepts.forEach(concept => {
+                const div = document.createElement('div');
+                div.className = 'concept-item';
+                if (completedConcepts.has(concept)) {
+                    div.classList.add('completed');
+                    div.textContent = `✓ ${concept}`;
+                } else {
+                    div.textContent = `⬜ ${concept}`;
+                }
+                list.appendChild(div);
+            });
+        }
+
+        function showCongrats() {
+            const challenge = challenges[gameState.challengeIndex - 1];
+            document.getElementById('modalTitle').textContent = '🎉 ¡DESAFÍO COMPLETADO!';
+            document.getElementById('modalMessage').innerHTML = 
+                `Aprendiste: <strong>${challenge.concept}</strong><br>Excelente trabajo.`;
+            
+            const stats = `
+                <div class="modal-stats-item"><span>Puntos:</span> <strong>${gameState.score}</strong></div>
+                <div class="modal-stats-item"><span>Racha:</span> <strong>${gameState.streak}</strong></div>
+                <div class="modal-stats-item"><span>Desafíos:</span> <strong>${gameState.completed}/${challenges.length}</strong></div>
+            `;
+            document.getElementById('modalStats').innerHTML = stats;
+            document.getElementById('congratsModal').classList.add('show');
+        }
+
+        function closeCongrats() {
+            document.getElementById('congratsModal').classList.remove('show');
+        }
+
+        function showGameOver() {
+            const stats = `
+                <div class="modal-stats-item"><span>Puntos finales:</span> <strong>${gameState.score}</strong></div>
+                <div class="modal-stats-item"><span>Desafíos completados:</span> <strong>${gameState.completed}</strong></div>
+                <div class="modal-stats-item"><span>Precisión:</span> <strong>${Math.round((gameState.successes / gameState.attempts) * 100)}%</strong></div>
+                <div class="modal-stats-item"><span>Intentos totales:</span> <strong>${gameState.attempts}</strong></div>
+            `;
+            document.getElementById('finalStats').innerHTML = stats;
+            document.getElementById('gameOverModal').classList.add('show');
+        }
+
+        function resetProgress() {
+            if (confirm('⚠️ ¿Estás seguro? Esto borrará todo tu progreso.')) {
+                gameState.resetAll();
+            }
+        }
+
+        // ============================================
+        // KEYBOARD SHORTCUTS
+        // ============================================
+
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                runCode();
+            }
+        });
+
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
+
+        function init() {
+            updateUI();
+            codeInput.focus();
+            
+            // Guardar estado cada 10 segundos
+            setInterval(() => gameState.save(), 10000);
+        }
+
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
