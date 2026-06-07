@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Courier New', monospace; background: #0a0e27; color: #00ff00; }
+  
+  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+  
+  .terminal { 
+    background: #0a0e27; 
+    border: 2px solid #00ff00; 
+    border-radius: 8px;
+    padding: 15px;
+    height: 500px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  .output { color: #00ff00; margin-bottom: 10px; white-space: pre-wrap; word-wrap: break-word; }
+  .prompt { color: #00ff00; font-weight: bold; }
+  .command { color: #ffff00; }
+  .error { color: #ff0000; }
+  .success { color: #00ff00; }
+  .hint { color: #00aaff; margin-top: 10px; font-style: italic; }
+  
+  .input-line { display: flex; gap: 10px; margin-top: 15px; }
+  .input-line input { 
+    flex: 1;
+    background: #0a0e27;
+    border: none;
+    border-bottom: 2px solid #00ff00;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+  }
+  .input-line input:focus { outline: none; }
+  
+  .quest { background: #1a1a3a; padding: 15px; border-left: 4px solid #00ff00; margin-bottom: 15px; border-radius: 4px; }
+  .quest-title { color: #00ff00; font-weight: bold; margin-bottom: 5px; }
+  .quest-desc { color: #aaaaaa; font-size: 13px; }
+  .quest-complete { color: #00ff00; margin-top: 10px; font-weight: bold; }
+  
+  .level-info { display: flex; justify-content: space-between; margin-bottom: 20px; padding: 10px; background: #1a1a3a; border-radius: 4px; }
+  .progress-bar { flex: 1; height: 20px; background: #0a0e27; border: 1px solid #00ff00; border-radius: 4px; margin: 0 10px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #00ff00; width: 0%; transition: width 0.3s; }
+  
+  .commands-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+  .cmd-box { background: #1a1a3a; padding: 12px; border-radius: 4px; border-left: 3px solid #00ff00; }
+  .cmd-name { color: #ffff00; font-weight: bold; }
+  .cmd-desc { color: #aaaaaa; font-size: 12px; margin-top: 5px; }
+  
+  button { background: #00ff00; color: #0a0e27; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+  button:hover { background: #00dd00; }
+  
+  .tips { background: #1a1a3a; padding: 15px; border-radius: 4px; margin-top: 20px; }
+  .tips-title { color: #00ff00; font-weight: bold; margin-bottom: 10px; }
+  .tips-item { color: #aaaaaa; font-size: 13px; margin-bottom: 8px; padding-left: 10px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1 style="color: #00ff00; margin-bottom: 20px;">🐧 TERMINAL UBUNTU - APRENDE CON DESAFÍOS</h1>
+  
+  <div class="level-info">
+    <div>Nivel: <span id="level" style="color: #ffff00;">1</span> / 5</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressBar"></div>
+    </div>
+    <div>Comandos: <span id="score" style="color: #ffff00;">0</span>/20</div>
+  </div>
+
+  <div class="quest" id="quest">
+    <div class="quest-title">⚡ MISIÓN 1: Explora la carpeta</div>
+    <div class="quest-desc">Escribe: <span style="color: #ffff00;">ls</span></div>
+    <div class="hint">Pista: Lista los archivos de la carpeta actual</div>
+  </div>
+
+  <div class="terminal" id="terminal"></div>
+
+  <div class="input-line">
+    <span class="prompt">$</span>
+    <input type="text" id="input" placeholder="Escribe comando aquí..." autofocus>
+  </div>
+
+  <div class="tips">
+    <div class="tips-title">💡 TIPS</div>
+    <div class="tips-item">✓ Presiona ENTER para ejecutar el comando</div>
+    <div class="tips-item">✓ Usa las flechas ↑↓ para navegar historial</div>
+    <div class="tips-item">✓ Escribe 'help' para ver comandos disponibles</div>
+    <div class="tips-item">✓ Los comandos diferencian mayúsculas/minúsculas</div>
+  </div>
+</div>
+
+<script>
+  // Sistema de archivos simulado
+  const fileSystem = {
+    '/': ['home', 'etc', 'usr', 'var', 'tmp'],
+    '/home': ['usuario'],
+    '/home/usuario': ['proyectos', 'Descargas', 'Documentos'],
+    '/home/usuario/proyectos': ['mi-sistema-inventario', 'proyecto2'],
+    '/home/usuario/proyectos/mi-sistema-inventario': ['main.py', 'models.py', 'requirements.txt', '.git', 'venv']
+  };
+
+  // Misiones
+  const missions = [
+    { cmd: 'ls', desc: 'Lista archivos (explora carpeta)', hint: 'Escribe: ls' },
+    { cmd: 'pwd', desc: 'Muestra dónde estás', hint: 'Escribe: pwd' },
+    { cmd: 'cd proyectos', desc: 'Navega a la carpeta proyectos', hint: 'Escribe: cd proyectos' },
+    { cmd: 'cd mi-sistema-inventario', desc: 'Entra al proyecto', hint: 'Escribe: cd mi-sistema-inventario' },
+    { cmd: 'ls', desc: 'Mira qué archivos hay en el proyecto', hint: 'Escribe: ls (de nuevo)' },
+    { cmd: 'pwd', desc: 'Confirma dónde estás ahora', hint: 'Escribe: pwd' },
+    { cmd: 'cd ..', desc: 'Vuelve atrás (carpeta padre)', hint: 'Escribe: cd ..' },
+    { cmd: 'cd ~', desc: 'Vuelve a tu home', hint: 'Escribe: cd ~' },
+    { cmd: 'mkdir prueba', desc: 'Crea una carpeta nueva', hint: 'Escribe: mkdir prueba' },
+    { cmd: 'touch archivo.py', desc: 'Crea un archivo vacío', hint: 'Escribe: touch archivo.py' }
+  ];
+
+  let currentPath = '/home/usuario/proyectos';
+  let commandHistory = [];
+  let historyIndex = -1;
+  let missionIndex = 0;
+  let score = 0;
+
+  const terminal = document.getElementById('terminal');
+  const input = document.getElementById('input');
+  const questEl = document.getElementById('quest');
+
+  function print(text, type = 'output') {
+    const line = document.createElement('div');
+    line.className = type;
+    line.textContent = text;
+    terminal.appendChild(line);
+    terminal.scrollTop = terminal.scrollHeight;
+  }
+
+  function updateMission() {
+    const mission = missions[missionIndex];
+    questEl.innerHTML = `
+      <div class="quest-title">⚡ MISIÓN ${missionIndex + 1}: ${mission.desc}</div>
+      <div class="quest-desc">Comando a ejecutar: <span style="color: #ffff00;">${mission.cmd}</span></div>
+      <div class="hint">Pista: ${mission.hint}</div>
+    `;
+    document.getElementById('progressBar').style.width = (missionIndex / missions.length * 100) + '%';
+  }
+
+  function executeCommand(cmd) {
+    const trimmed = cmd.trim();
+    
+    // Mostrar comando ejecutado
+    print(`$ ${trimmed}`, 'command');
+
+    if (trimmed === '') return;
+
+    commandHistory.push(trimmed);
+    historyIndex = -1;
+
+    // Verificar si es la misión actual
+    const currentMission = missions[missionIndex];
+    if (trimmed === currentMission.cmd) {
+      print(`✓ ¡CORRECTO! Misión completada.`, 'success');
+      score++;
+      document.getElementById('score').textContent = score;
+      missionIndex++;
+      if (missionIndex < missions.length) {
+        setTimeout(updateMission, 500);
+      } else {
+        print('\n🎉 ¡FELICIDADES! Completaste todas las misiones!', 'success');
+        print('Ya conoces los comandos básicos de Ubuntu.', 'success');
+      }
+      return;
+    }
+
+    // Ejecutar comando
+    switch (trimmed) {
+      case 'ls':
+        const files = fileSystem[currentPath] || [];
+        print(files.join('    '));
+        break;
+      
+      case 'pwd':
+        print(currentPath);
+        break;
+      
+      case 'clear':
+        terminal.innerHTML = '';
+        break;
+      
+      case 'help':
+        print('COMANDOS DISPONIBLES:');
+        print('  ls                    - Listar archivos');
+        print('  pwd                   - Mostrar carpeta actual');
+        print('  cd [carpeta]          - Cambiar carpeta');
+        print('  cd ..                 - Ir a carpeta padre');
+        print('  cd ~                  - Ir a home');
+        print('  mkdir [nombre]        - Crear carpeta');
+        print('  touch [archivo]       - Crear archivo');
+        print('  clear                 - Limpiar pantalla');
+        print('  help                  - Ver esta lista');
+        break;
+      
+      default:
+        if (trimmed.startsWith('cd ')) {
+          const target = trimmed.substring(3).trim();
+          
+          if (target === '..') {
+            // Ir atrás
+            const parts = currentPath.split('/').filter(p => p);
+            if (parts.length > 0) parts.pop();
+            currentPath = '/' + parts.join('/');
+            if (currentPath === '/') currentPath = '/';
+          } else if (target === '~') {
+            currentPath = '/home/usuario';
+          } else {
+            // Navegar a carpeta
+            const newPath = currentPath === '/' ? '/' + target : currentPath + '/' + target;
+            if (fileSystem[newPath]) {
+              currentPath = newPath;
+            } else {
+              print(`bash: cd: ${target}: No such file or directory`, 'error');
+            }
+          }
+        } else if (trimmed.startsWith('mkdir ')) {
+          const folderName = trimmed.substring(6).trim();
+          print(`# Carpeta '${folderName}' creada (simulado)`);
+        } else if (trimmed.startsWith('touch ')) {
+          const fileName = trimmed.substring(6).trim();
+          print(`# Archivo '${fileName}' creado (simulado)`);
+        } else {
+          print(`bash: ${trimmed}: comando no encontrado`, 'error');
+          print('Escribe "help" para ver comandos disponibles');
+        }
+    }
+  }
+
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      executeCommand(input.value);
+      input.value = '';
+    }
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      historyIndex = Math.min(historyIndex + 1, commandHistory.length - 1);
+      input.value = commandHistory[commandHistory.length - 1 - historyIndex] || '';
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      historyIndex = Math.max(historyIndex - 1, -1);
+      input.value = historyIndex >= 0 ? commandHistory[commandHistory.length - 1 - historyIndex] : '';
+    }
+  });
+
+  // Inicializar
+  print('╔═══════════════════════════════════════════════════════════╗', 'output');
+  print('║  🐧 BIENVENIDO A UBUNTU TERMINAL - APRENDE JUGANDO       ║', 'output');
+  print('║  Completar misiones para aprender comandos Linux         ║', 'output');
+  print('╚═══════════════════════════════════════════════════════════╝', 'output');
+  print('');
+  print(`Ubicación: ${currentPath}`);
+  print('');
+  updateMission();
+</script>
+
+</body>
+</html>
