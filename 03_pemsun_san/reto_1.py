@@ -11,8 +11,6 @@ numero = int(input("Ingrese un numero: "))
 if numero < 0: 
     print("Negativo")
 elif numero > 0:
-    print("positivo")
+    print("Positivo")
 elif numero == 0:
     print("Cero")
-else:
-    print("Valor incorrecto")
